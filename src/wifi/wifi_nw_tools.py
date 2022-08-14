@@ -15,9 +15,7 @@ import subprocess
 import glob
 
 from pwn import *
-from src.config.drn_config import *
-
-
+from ..config import *
 
 def check_kill():
     """
@@ -39,7 +37,8 @@ def start_mon(channel='', interface=MNG_INTERF):
         check_kill()
         subprocess.run(['sudo', 'airmon-ng', 'start', interface, channel], capture_output=True)
     except Exception as e:
-        progress.failure(e.traceback.format_exc())
+        progress.failure("Error while switching to monitoring mode: ", format(e))
+        raise(e)
     progress.success()
 
 
@@ -51,7 +50,8 @@ def stop_mon(interface=MON_INTERF):
         progress = log.progress("Disabling monitor mode on '"+interface+"' interface")
         subprocess.run(['sudo', 'airmon-ng', 'stop', interface], capture_output=True)
     except Exception as e:
-        progress.failure(e.traceback.format_exc())
+        progress.failure("Error while disabling ", interface, " interface: ", format(e))
+        raise(e)
     progress.success()
 
 
@@ -75,7 +75,10 @@ def dump_all_nw(interface=MON_INTERF, duration=NW_DUMP_DURATION):
     except subprocess.TimeoutExpired:
         pass
     except Exception as e:
-        progress.failure(e.traceback.format_exc())
+        progress.failure("Error while dumping networks: ", format(e))
+        raise(e)
+    
+
     progress.success()
 
 
@@ -97,7 +100,9 @@ def dump_specific_nw(bssid, channel, interface=MON_INTERF, duration=CLI_DUMP_DUR
     except subprocess.TimeoutExpired:
         pass
     except Exception as e:
-        progress.failure(e.traceback.format_exc())
+        progress.failure("Error while dumping ", str(bssid), " acess point: ", format(e))
+        raise(e)
+
     progress.success()
 
 
@@ -132,8 +137,7 @@ def restore_interf(interf=MNG_INTERF):
     """
     restore interf initial state (set it back to managed mode)
     """
-    print("Restoring '"+interf+"' initial state...")
-    log.progress("Restoring '"+interf+"' initial state...")
+
     progress = log.progress("Restoring '"+interf+"' initial state...")
     stop_mon(MON_INTERF)
     disable_interf(MNG_INTERF)
@@ -157,7 +161,9 @@ def deauth(target_nw_bssid, target_cli_bssid, target_essid
     except subprocess.TimeoutExpired:
         pass
     except Exception as e:
-        progress.failure(e.traceback.format_exc())
+        progress.failure("Error while trying to deauthenticate: ", format(e))
+        raise(e)
+    
     progress.success()
 
 
@@ -179,7 +185,9 @@ def crack(bssid, essid):
     except subprocess.TimeoutExpired:
         pass
     except Exception as e:
-        progress.failure(e.traceback.format_exc())
+        progress.failure("Error during wifi cracking interface: ", format(e))
+        raise(e)
+
     progress.success()
 
 

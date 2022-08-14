@@ -10,14 +10,19 @@
 # Modified  : 2022/05/04
 ##############################################################################
 
+import os
+
+# application title
+APP_TITLE='Smeeta - Drone'
+
+# application base directory
+BASE_DIR=os.getcwd()+'/'
+
 # managed interface to use
-MNG_INTERF='wlan0'
+MNG_INTERF='wlp2s0'#'wlan0'
 
 # monitoring interface name, based on the managed one
 MON_INTERF=MNG_INTERF+'mon'
-
-# application base directory
-BASE_DIR='/mnt/prst/smeeta/'
 
 # directory where are generated dump files
 DUMP_DIR=BASE_DIR+'res/dump/'
@@ -48,5 +53,24 @@ NW_DUMP_DURATION=30
 # aerodump networks clients dump duration in seconds
 CLI_DUMP_DURATION=40
 
-# application title
-APP_TITLE='Smeeta - Drone'
+#[RETRIEVER]
+HOST = "gdc.cddis.eosdis.nasa.gov"
+MAIL = "smeeta@live.fr"
+GPS_RES_DIR = BASE_DIR+"/res/gps_res/"
+
+#[GENERATOR]
+GPS_SDR_SIM = os.path.expanduser('~')+"/gps-sdr-sim/gps-sdr-sim"
+COORDS_DIR = BASE_DIR+"/res/gps_res/coords/"
+INPUT_EPHEM_FILE = BASE_DIR+"/res/gps_res/gps_data.n"
+OUTPUT = BASE_DIR+"/res/gps_res/gpssim.bin"
+SAMPLE_RATE = "2600000"
+BITS = "8"
+DURATION = "30"
+
+#[TRANSMITTER]
+BIN_FILE = BASE_DIR+"/res/gps_res/gpssim.bin"
+FREQUENCY = "1575420000"
+SAMPLE_RATE = "2600000"
+ENABLE_AMPL = "1"
+GAIN = "0"
+REPEAT = "-R"

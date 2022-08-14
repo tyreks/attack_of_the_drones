@@ -2,40 +2,31 @@
 # -*- coding: utf-8 -*-
 
 import argparse
-from configparser import ConfigParser
 import subprocess
 
+from ..config import *
 
 class SpoofedSignalTransmitter(object):
     """
     """
     
-    def __init__(self, bin_file=None, frequency=None
-        , sample_rate=None, enable_ampl=None
-        , gain=None, repeat=None):
+    def __init__(self, bin_file=BIN_FILE, frequency=FREQUENCY
+        , sample_rate=SAMPLE_RATE, enable_ampl=ENABLE_AMPL
+        , gain=GAIN, repeat=REPEAT):
         """
         """
 
-        parser = ConfigParser()
-        parser.read("config.ini")
+        self.bin_file = bin_file
 
-        self.bin_file = bin_file if bin_file != None \
-            else parser["TRANSMITTER"]["BIN_FILE"]
+        self.frequency = frequency
 
-        self.frequency = frequency if frequency != None \
-            else parser["TRANSMITTER"]["FREQUENCY"]
-
-        self.sample_rate = sample_rate if sample_rate != None \
-            else parser["TRANSMITTER"]["SAMPLE_RATE"]
+        self.sample_rate = sample_rate
             
-        self.enable_ampl = enable_ampl if enable_ampl != None \
-            else parser["TRANSMITTER"]["ENABLE_AMPL"]
+        self.enable_ampl = enable_ampl
 
-        self.gain = gain if gain != None \
-            else parser["TRANSMITTER"]["GAIN"]
+        self.gain = gain
 
-        self.repeat = repeat if repeat != None \
-            else parser["TRANSMITTER"]["REPEAT"]
+        self.repeat = repeat
 
 
     def transmit(self):

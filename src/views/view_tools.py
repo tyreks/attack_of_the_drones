@@ -15,7 +15,7 @@
 import re
 import pyfiglet
 
-from src.config.drn_config import *
+from src.config import *
 import click # this external lib has to be the last import
 
 def clear_scr():

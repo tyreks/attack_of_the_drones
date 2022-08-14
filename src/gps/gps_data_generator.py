@@ -2,48 +2,46 @@
 # -*- coding: utf-8 -*-
 
 import argparse
-from configparser import ConfigParser
 import datetime
 import re
 import subprocess
 import sys
 
+from ..config import *
+
 class GpsDataGenerator(object):
 
-    def __init__(self, date=None, input_ephem_file=None
-        ,bits=None, sample_rate=None, location=None
-        , duration=None, output=None):
+    date : str
+    input_ephem_file : str
+    bits : str
+    sample_rate : str
+    location : str
+    duration : str
+    output : str
+    duration : str
+
+    def __init__(self, date=None, input_ephem_file=INPUT_EPHEM_FILE
+        ,bits=BITS, sample_rate=SAMPLE_RATE, location=None
+        , duration=DURATION, output=OUTPUT):
         """
         """
 
-        parser = ConfigParser()
-        parser.read("config.ini")
+        self.location = self.validateLocation(location, COORDS_DIR)
 
-        self.location = self.validateLocation(location
-            , parser["GENERATOR"]["COORDS_DIR"])
-
-
-        self.gps_sdr_sim = parser["GENERATOR"]["GPS_SDR_SIM"]
-
-        self.input_ephem_file = input_ephem_file \
-            if input_ephem_file != None \
-            else parser["GENERATOR"]["INPUT_EPHEM_FILE"]
-
-        self.bits = bits if bits != None \
-            else parser["GENERATOR"]["BITS"]
-
-        self.sample_rate = sample_rate if sample_rate != None \
-            else parser["GENERATOR"]["SAMPLE_RATE"]
-            
-        self.duration = duration if duration != None \
-            else parser["GENERATOR"]["DURATION"]
-
-        self.output = output if output != None \
-            else parser["GENERATOR"]["OUTPUT"]
+        self.gps_sdr_sim = GPS_SDR_SIM
 
         self.date = date if date != None\
             else datetime.datetime.today().strftime("%Y/%m/%d,07:%M:%S")
 
+        self.input_ephem_file = input_ephem_file
+
+        self.bits = bits
+        
+        self.sample_rate = sample_rate
+
+        self.output = output
+
+        self.duration  = duration
 
     @staticmethod
     def validateLocation(location:str, coords_dir:str) -> str:

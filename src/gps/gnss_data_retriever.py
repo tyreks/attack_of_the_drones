@@ -7,8 +7,9 @@ import datetime
 import gzip
 import shutil
 from ftplib import FTP_TLS
-from configparser import ConfigParser
 import sys
+
+from ..config import *
 
 
 class GnssDataRetriever(object) :
@@ -20,16 +21,14 @@ class GnssDataRetriever(object) :
     mail : str
 
     # gps ressours files directory
-    gps_res : str
+    gps_res_dir : str
 
-    def __init__(self, host=None, mail=None) -> None:
+    def __init__(self, host=HOST, mail=MAIL, gps_res_dir=GPS_RES_DIR) -> None:
         """
         """
-        parser = ConfigParser()
-        parser.read("config.ini")
-        self.host = host if host != None else parser["RETRIEVER"]["HOST"]
-        self.mail = mail if mail != None else parser["RETRIEVER"]["MAIL"]
-        self.gps_res = parser["RETRIEVER"]["GPS_RES_DIR"]
+        self.host = host 
+        self.mail = mail 
+        self.gps_res = gps_res_dir
 
 
     def retrieve_gnss_file(self):

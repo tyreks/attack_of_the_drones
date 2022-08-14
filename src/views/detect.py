@@ -16,10 +16,12 @@ from pwn import *
 
 from src.wifi.wifi_nw_tools import *
 from src.wifi.wifi_vendors import *
-import src.views.clients_of_target as cli 
+import src.views.clients_of_target as cli
+
+from ..config import *
+
 """ has to be the last import because of a bug in 'click' external lib """
 from src.views.view_tools import *
-
 
 def get_target_networks():
     """
