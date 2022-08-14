@@ -1,0 +1,7 @@
+
+BSSID, First time seen, Last time seen, channel, Speed, Privacy, Cipher, Authentication, Power, # beacons, # IV, LAN IP, ID-length, ESSID, Key
+90:03:B7:C8:40:2F, 2022-08-04 15:10:56, 2022-08-04 15:11:36,  6,  65, OPN, ,   , -47,      389,     1198, 192.168.  1.  2,  10, StarDrone2, 
+
+Station MAC, First time seen, Last time seen, Power, # packets, BSSID, Probed ESSIDs
+64:DD:E9:5F:46:61, 2022-08-04 15:10:56, 2022-08-04 15:11:36, -31,     2569, 90:03:B7:C8:40:2F,
+
