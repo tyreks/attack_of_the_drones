@@ -74,3 +74,5 @@ SAMPLE_RATE = "2600000"
 ENABLE_AMPL = "1"
 GAIN = "0"
 REPEAT = "-R"
+
+DEBUG = False
