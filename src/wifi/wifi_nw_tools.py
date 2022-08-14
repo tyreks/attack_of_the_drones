@@ -77,7 +77,7 @@ def dump_all_nw(interface=MON_INTERF, duration=NW_DUMP_DURATION, hide_output = F
         # perform airodump
         cmd = ['sudo', 'airodump-ng', interface
             , '-w', dump_file, '--output-format', 'csv'
-            ,'-b', 'abg', '--berlin', '60000', '-M', '2> /dev/null']
+            ,'-b', 'abg', '--berlin', '60000', '-M']
         if DEBUG: print_cmd(cmd)
         subprocess.run(cmd, timeout=duration, capture_output = hide_output)
     except subprocess.TimeoutExpired:

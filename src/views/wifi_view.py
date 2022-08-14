@@ -52,7 +52,8 @@ class WifiView:
 
         if (choice=='1'): # List wifi networks
             self.wifi_attacker.list_wifi_nw(capture_output=False)
-            input("\t\n\n>> Press 'Enter' to continue << ")
+
+            input("\t\n\n>> Press 'Enter' to continue <<\n ")
 
         elif (choice=='2'): # Detect drones
             self.wifi_attacker.detect_drones()
