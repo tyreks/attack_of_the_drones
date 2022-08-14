@@ -31,7 +31,8 @@ class GpsDataGenerator(object):
         self.gps_sdr_sim = GPS_SDR_SIM
 
         self.date = date if date != None\
-            else datetime.datetime.today().strftime("%Y/%m/%d,07:%M:%S")
+            else datetime.datetime.utcnow().date().strftime("%Y/%m/%d,H:%M:%S")
+            #else datetime.datetime.today().strftime("%Y/%m/%d,07:%M:%S")
 
         self.input_ephem_file = input_ephem_file
 
@@ -48,10 +49,12 @@ class GpsDataGenerator(object):
 
         resLocation = location
 
+        # regular expression matching GPS coordinates
         regexCoords = "^[-+]?([1-8]?\d(\.\d+)?|90(\.0+)?),\s*"\
             "[-+]?(180(\.0+)?|((1[0-7]\d)|([1-9]?\d))(\.\d+)?)"\
             "(,[0-9]+)?$"
         
+        # regular expression for file path
         regexFilePath = "^(.+)\/([^\/]+)$"
             
         if re.match(regexFilePath, coords_dir+location):

@@ -22,10 +22,43 @@ class WifiAttacker():
         pass
 
 
-    def detect_drones(self) -> None:
-        pass
 
-    def get_target_networks():
+    def list_wifi_nw(self, capture_output=False) -> None:
+
+        # prepare the network interface
+        restore_interf()
+
+        # start monitoring networks
+        start_mon()
+
+        # dump wifi networks
+        dump_all_nw(hide_output = capture_output)
+
+        # restore the interface
+        restore_interf()
+
+
+
+    def detect_drones(self) -> None:
+
+        # dump all networks without display the list
+        self.list_wifi_nw(capture_output=True)
+
+        # get access points corresponding to drones
+        targets = self.get_target_networks()
+
+        if len(targets) == 0:
+            print ("No targets detected")
+        else:
+            print("The following targets have been detected. Please select one:\n")
+            for t in targets:
+                print("'"+t[0]+"' providing '"+t[1]+"' network (channel "+t[3]+", BSSID: "+t[2]+")")
+        
+
+
+
+
+    def get_target_networks(self):
         """
         import the CSV file list of all availables networks and search
         inside for potential drones according to their mac adresses (OUI).
@@ -61,27 +94,6 @@ class WifiAttacker():
         restore_interf(interface)
         
     
-    def list_wifi_nw(self, capture_output=False) -> None:
-
-        # prepare the network interface
-        restore_interf()
-
-        # start monitoring networks
-        start_mon()
-
-        # dump wifi networks
-        dump_all_nw(hide_output = capture_output)
-
-        # restore the interface
-        restore_interf()
-
-        # import and sort the CSV dumping input file
-        df = pandas.read_csv(CSV_NW_DUMP, usecols=[' Power', ' ESSID', 'BSSID', ' channel'])
-        df.sort_values([" Power"], axis=0, ascending=[False], inplace=True)
-        
-        # print the result
-        #print("\n",df,"\n")
-
     def crack_key(self) -> None:
         pass
 

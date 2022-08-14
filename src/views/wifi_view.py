@@ -12,7 +12,9 @@
 ##############################################################################
 
 
+import os
 import sys
+import time
 import src.views.view_tools as vt
 import src.views.home_view as h
 
@@ -50,9 +52,10 @@ class WifiView:
 
         if (choice=='1'): # List wifi networks
             self.wifi_attacker.list_wifi_nw(capture_output=False)
-            input("\t\n\n>> Press any key to continue << ")
+            input("\t\n\n>> Press 'Enter' to continue << ")
 
         elif (choice=='2'): # Detect drones
+            self.wifi_attacker.detect_drones()
             pass
 
 

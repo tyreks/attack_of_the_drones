@@ -23,26 +23,34 @@ class SmeetaGpsSpoofer(object):
         """
         """
         try:
+            # if no special "--" operation argument passed, perform a full process
             if not (self.retrieve or self.generate or self.transmit):
 
+                # if no location specified
                 if (self.location == None):
                     raise Exception ("The argument : '-l <LOCATION>' has to be specified"\
                         " for the full gps spoofing processing.")
                 
-
+                # retrieve the latest GNSS file frome the NASA site
                 retriever = gdr.GnssDataRetriever()
-                generator = gdg.GpsDataGenerator(location=self.location)
-                transmitter = sst.SpoofedSignalTransmitter()
-
                 retriever.retrieve_gnss_file()
+                
+                # generate the binary that will be transmited as fake GPS
+                generator = gdg.GpsDataGenerator(location=self.location)
                 generator.generate_gps_data()
+                
+                # transmit the fake GPS signal
+                transmitter = sst.SpoofedSignalTransmitter()
                 transmitter.transmit()
 
+            # else a "--" special operation has been choosed, perform it
             else :
+                # retrieving operation
                 if self.retrieve:
                     retriever = gdr.GnssDataRetriever()
                     retriever.retrieve_gnss_file()
-
+                
+                # generating operation
                 if self.generate:
                     if (self.location == None):
                         raise Exception ("The argument : '-l <LOCATION>' has to be specified"\
@@ -50,9 +58,11 @@ class SmeetaGpsSpoofer(object):
                     generator = gdg.GpsDataGenerator(location=self.location)
                     generator.generate_gps_data()
                 
+                # transmitting operation
                 if self.transmit:
                     transmitter = sst.SpoofedSignalTransmitter()
                     transmitter.transmit()
+                    
         except Exception as exc:
             print (format(exc))
             sys.exit(1)

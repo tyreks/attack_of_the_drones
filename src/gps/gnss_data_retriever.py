@@ -39,7 +39,9 @@ class GnssDataRetriever(object) :
         # remote NASA host
 
         # date retrieving
-        TODAY = datetime.datetime.today()
+        #TODAY = datetime.datetime.today()
+        TODAY = datetime.datetime.utcnow().date()
+
         YEAR = TODAY.strftime("%Y")
         DAY_OF_YEAR = TODAY.strftime("%j")
         YEAR_2_LAST_DIGITS = TODAY.strftime("%y")
