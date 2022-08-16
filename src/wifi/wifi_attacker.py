@@ -39,7 +39,10 @@ class WifiAttacker():
 
 
 
-    def detect_drones(self) -> None:
+    def detect_drones(self):
+
+        # result list
+        result_drones_list = []
 
         # dump all networks without display the list
         self.list_wifi_nw(capture_output=True)
@@ -47,14 +50,14 @@ class WifiAttacker():
         # get access points corresponding to drones
         targets = self.get_target_networks()
 
-        if len(targets) == 0:
-            print ("No targets detected")
-        else:
-            print("The following targets have been detected. Please select one:\n")
-            for t in targets:
-                print("'"+t[0]+"' providing '"+t[1]+"' network (channel "+t[3]+", BSSID: "+t[2]+")")
-        
-
+        """
+        print("The following targets have been detected. Please select one:\n")
+        for t in targets:
+            if t[1] != '':
+                result_drones_list.append("'"+t[0]+"' providing '"
+                    +t[1]+"' network (channel "+t[3]+", BSSID: "+t[2]+")")
+        """
+        return targets
 
 
 
