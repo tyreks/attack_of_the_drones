@@ -21,7 +21,7 @@ import src.views.clients_of_target as cli
 from ..config import *
 
 """ has to be the last import because of a bug in 'click' external lib """
-from src.views.view_tools import *
+from src.views.views_common_lib import *
 
 def get_target_networks():
     """

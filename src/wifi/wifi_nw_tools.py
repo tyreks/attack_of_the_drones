@@ -17,17 +17,65 @@ import glob
 from pwn import *
 from ..config import *
 
-def check_kill():
+def check_kill(hide_output=True):
     """
     perform a preventive kill of processes that could cause troubles
     during the monitoring
     """
     cmd = ['sudo', 'airmon-ng', 'check', 'kill']
     if DEBUG: print_cmd(cmd)
-    subprocess.run(cmd, capture_output=True)
+    subprocess.run(cmd, capture_output=hide_output)
 
 
-def start_mon(channel='', interface=MNG_INTERF):
+
+def restart_nw(hide_output=True):
+    """
+    restart the network manager
+    """
+    #progress = log.progress("Restarting network...")
+    cmd = ['sudo', 'systemctl', 'restart', 'NetworkManager']
+    if DEBUG: print_cmd(cmd)
+    subprocess.run(cmd, capture_output=hide_output)
+    #progress .success()
+
+
+def enable_interf(interface=MNG_INTERF, hide_output=True):
+    """
+    start interface
+    """
+    #progress = log.progress("Enabling interface '" + str(interface) + "'...")
+    cmd = ['sudo', 'ip', 'link', 'set', interface, 'up']
+    if DEBUG: print_cmd(cmd)
+    subprocess.run(cmd, capture_output=hide_output)
+    #progress .success()
+
+
+def disable_interf(interface=MNG_INTERF, hide_output=True):
+    """
+    stop interface
+    """
+    #progress = log.progress("Disabling interface '" + str(interface) + "'...")
+    cmd = ['sudo', 'ip', 'link', 'set', interface, 'down']
+    if DEBUG: print_cmd(cmd)
+    subprocess.run(cmd, capture_output=hide_output)
+    #progress .success()
+
+
+def restore_interf(interf=MNG_INTERF, hide_output=True):
+    """
+    restore interf initial state (set it back to managed mode)
+    """
+
+    #progress = log.progress("Restoring '"+interf+"' initial state...")
+    stop_mon(MON_INTERF)
+    disable_interf(MNG_INTERF)
+    restart_nw()
+    enable_interf(interf)
+    #progress .success()
+
+
+
+def start_mon(channel='', interface=MNG_INTERF, hide_output=True):
     """
     enable monitor mode on <interface> and <channel>
     """
@@ -39,7 +87,7 @@ def start_mon(channel='', interface=MNG_INTERF):
         check_kill()
         cmd = ['sudo', 'airmon-ng', 'start', interface, channel]
         if DEBUG: print_cmd(cmd)
-        subprocess.run(cmd, capture_output=True)
+        subprocess.run(cmd, capture_output=hide_output)
 
     except Exception as e:
         #progress .failure("Error while switching to monitoring mode: ", format(e))
@@ -47,7 +95,7 @@ def start_mon(channel='', interface=MNG_INTERF):
     #progress .success()
 
 
-def stop_mon(interface=MON_INTERF):
+def stop_mon(interface=MON_INTERF, hide_output=True):
     """
     disable monitor mode on <interface> and <channel>
     """
@@ -55,7 +103,7 @@ def stop_mon(interface=MON_INTERF):
         #progress = log.progress("Disabling monitor mode on '"+interface+"' interface")
         cmd = ['sudo', 'airmon-ng', 'stop', interface]
         if DEBUG: print_cmd(cmd)
-        subprocess.run(cmd, capture_output=True)
+        subprocess.run(cmd, capture_output=hide_output)
     except Exception as e:
         #progress .failure("Error while disabling ", interface, " interface: ", format(e))
         raise(e)
@@ -113,52 +161,6 @@ def dump_specific_nw(bssid, channel, interface=MON_INTERF, duration=CLI_DUMP_DUR
         raise(e)
 
     progress .success()
-
-
-def restart_nw():
-    """
-    restart the network manager
-    """
-    #progress = log.progress("Restarting network...")
-    cmd = ['sudo', 'systemctl', 'restart', 'NetworkManager']
-    if DEBUG: print_cmd(cmd)
-    subprocess.run(cmd, capture_output=True)
-    #progress .success()
-
-
-def enable_interf(interface=MNG_INTERF):
-    """
-    start interface
-    """
-    #progress = log.progress("Enabling interface '" + str(interface) + "'...")
-    cmd = ['sudo', 'ip', 'link', 'set', interface, 'up']
-    if DEBUG: print_cmd(cmd)
-    subprocess.run(cmd, capture_output=True)
-    #progress .success()
-
-
-def disable_interf(interface=MNG_INTERF):
-    """
-    stop interface
-    """
-    #progress = log.progress("Disabling interface '" + str(interface) + "'...")
-    cmd = ['sudo', 'ip', 'link', 'set', interface, 'down']
-    if DEBUG: print_cmd(cmd)
-    subprocess.run(cmd, capture_output=True)
-    #progress .success()
-
-
-def restore_interf(interf=MNG_INTERF):
-    """
-    restore interf initial state (set it back to managed mode)
-    """
-
-    #progress = log.progress("Restoring '"+interf+"' initial state...")
-    stop_mon(MON_INTERF)
-    disable_interf(MNG_INTERF)
-    restart_nw()
-    enable_interf(interf)
-    #progress .success()
 
 
 def deauth(target_nw_bssid, target_cli_bssid, target_essid

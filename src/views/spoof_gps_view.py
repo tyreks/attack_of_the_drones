@@ -1,7 +1,7 @@
 import sys
 import time
 
-import src.views.view_tools as vt
+import src.views.views_common_lib as vt
 import src.wifi.wifi_availables_nw as nw
 import src.views.detect as tgt
 import src.views.home_view as h

@@ -21,7 +21,7 @@ from src.wifi.wifi_nw_tools import *
 from src.wifi.wifi_vendors import *
 from src.wifi.wifi_csv_tools import *
 """ has to be the last import because of a bug in 'click' external lib """
-from src.views.view_tools import *
+from src.views.views_common_lib import *
 
 
 

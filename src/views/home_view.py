@@ -1,7 +1,7 @@
 import sys
 import time
 
-from . import view_tools as vt
+from . import views_common_lib as vt
 from . import detect as tgt
 from . import jam_view as jam
 from . import spoof_gps_view as gps
@@ -20,7 +20,6 @@ class HomeView:
             "Wifi attacks"
             , "GPS spoofing"
             , "Radio jamming"
-            , "Settings"
             , "Quit"]
 
     def display(self):
@@ -56,11 +55,7 @@ class HomeView:
                     "please connect it and retry. <<\n")
                 time.sleep(2)
             
-        elif (choice == '4'): # Settings
-            # to be implemented
-            pass
-            
-        elif (choice == '5'): # Exit
+        elif (choice == '4'): # Exit
             sys.exit(0)
 
         # in the end, back to home screen3

@@ -6,7 +6,7 @@
 # Owner     : Expleo Group
 # Author    : Tarek AZAIZ
 # Project   : Drones Attack Demonstrator
-# Subject   : Useful tools for displaying views (menus, datas)
+# Subject   : Common tools for displaying views (menus, datas)
 # Version   : 0.1
 # Created   : 2022/03/31
 # Modified  : 2022/05/04
@@ -46,7 +46,7 @@ def validate_choice(value, menus):
     If valid, returns the input after removing the \n last character.
     """
     try:
-        if ( (not re.match(r"(^[0-9]$)", value))
+        if ( (not re.match(r"(^[0-9]([0-9]?)$)", value))
             or (int(value) > len(menus))
             or ((int(value) < 1))
         ):

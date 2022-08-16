@@ -12,34 +12,35 @@
 ##############################################################################
 
 
-import os
 import sys
-import time
-import src.views.view_tools as vt
-import src.views.home_view as h
+from . import local_sys_tools_view as lstv
+from . import views_common_lib as vt
+from . import home_view as hv
 
-from ..wifi import wifi_attacker as wa
+from ..wifi.wifi_attacker import WifiAttacker
 
 class WifiView:
 
     menus : list
-    wifi_attacker : wa.WifiAttacker
+    wifi_attacker : WifiAttacker
 
     def __init__(self) -> None:
 
         # Menus choices initialization
         self.menus = [
-              "Display wifi networks"
-            , "Detect drones"
+            #  "Display wifi networks" 
+            #, 
+              "Detect again"
             , "Deauthenticate legitime user"
             , "Crack wifi key"
             , "Change wifi password"
             , "Hijack drone"
+            , "Local system wifi tools"
             , "Return to the home screen "
             , "Quit"]
 
-        # Jammer initilization
-        self.wifi_attacker = wa.WifiAttacker()
+        # Wifi attacker initilization
+        self.wifi_attacker = WifiAttacker()
         
 
     def display(self):
@@ -49,34 +50,38 @@ class WifiView:
 
         # menu selection
         choice = vt.choose_menu(self.menus)
-
+        """"
         if (choice=='1'): # List wifi networks
             self.wifi_attacker.list_wifi_nw(capture_output=False)
 
             input("\t\n\n>> Press 'Enter' to continue <<\n ")
-
-        elif (choice=='2'): # Detect drones
+        """
+        if (choice=='1'): # Detect drones
             self.wifi_attacker.detect_drones()
             pass
 
 
-        elif (choice == '3'): # Deauthenticate legitime user
+        elif (choice == '2'): # Deauthenticate legitime user
             pass
 
 
-        elif (choice == '4'): # Crack wifi key
+        elif (choice == '3'): # Crack wifi key
             pass
 
 
-        elif (choice == '5'): # Change wifi password"
+        elif (choice == '4'): # Change wifi password"
             pass
 
 
-        elif (choice=='6'): # Hijack Drone
+        elif (choice=='5'): # Hijack Drone
             pass
 
-        elif (choice == '7'): # GO to home screen
-            view = h.HomeView()
+        elif (choice=='6'): # Local system tools view
+            view = lstv.LocalSysToolsView()
+            view.display()
+
+        elif (choice == '7'): # Return to home screen
+            view = hv.HomeView()
             view.display()
 
         elif (choice == '8'): # Exit
