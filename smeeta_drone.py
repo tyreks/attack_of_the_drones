@@ -15,6 +15,8 @@
 ##############################################################################
 
 
+import signal
+import sys
 import src.wifi.wifi_availables_nw as nw
 import src.views.home_view as h
 
@@ -25,6 +27,13 @@ from src.views.view_tools import *
 ## Main function
 #
 #  More details.
+def sig_handler(sig=None, frame=None):
+    print("\n\n>> User interruption detected, exiting... <<\n")
+    sys.exit(0)
+
+signal.signal(signal.SIGINT, sig_handler)
+signal.signal(signal.SIGTERM, sig_handler)
+
 def main():
 
     view = h.HomeView()
