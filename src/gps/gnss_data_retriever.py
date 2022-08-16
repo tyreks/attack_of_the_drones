@@ -20,9 +20,10 @@ class GnssDataRetriever(object) :
     # mail used as a password for sftp transfert
     mail : str
 
-    # gps ressours files directory
+    # gps ressourses files directory
     gps_res_dir : str
 
+    #constructor
     def __init__(self, host=HOST, mail=MAIL, gps_res_dir=GPS_RES_DIR) -> None:
         """
         """
