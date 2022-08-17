@@ -65,7 +65,7 @@ INPUT_EPHEM_FILE = BASE_DIR+"/res/gps_res/gps_data.n"
 OUTPUT = BASE_DIR+"/res/gps_res/gpssim.bin"
 SAMPLE_RATE = "2600000"
 BITS = "8"
-DURATION = "30"
+DURATION = "120"
 
 #[TRANSMITTER]
 BIN_FILE = BASE_DIR+"/res/gps_res/gpssim.bin"

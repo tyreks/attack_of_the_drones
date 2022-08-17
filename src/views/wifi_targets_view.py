@@ -59,19 +59,19 @@ class WifiTargetsView:
                         "'"+t[0]+"' providing '"+t[1]+"' network (channel "
                         +t[3]+", BSSID: "+t[2]+")")
 
-
         # menu selection
         choice = vt.choose_menu(self.menus)
 
         # for each detected drone, make a specific call for attack
         if int(choice) <= nb_targets:
-            targeted_drone = d.Drone(brand=t[0], ssid=t[1], bssid=t[2], channel=t[3])
+            i = int(choice) - 1
+            targeted_drone = d.Drone(brand=targets[i][0], ssid=targets[i][1]
+            , bssid=targets[i][2], channel=targets[i][3])
             view = wav.WifiAttacksView(targeted_drone)
             view.display()
 
         if choice==str(nb_targets + 1): # Detect drones again
             self.display()
-
 
         elif choice==str(nb_targets + 2): # Local system tools view
             view = lstv.LocalSysToolsView()
@@ -83,6 +83,7 @@ class WifiTargetsView:
 
         elif choice==str(nb_targets + 4): # Exit
             sys.exit(0)
+    
     
 def main():
     view = WifiTargetsView()
