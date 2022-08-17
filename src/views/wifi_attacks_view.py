@@ -60,8 +60,14 @@ class WifiAttacksView:
         choice = vt.choose_menu(self.menus)
      
         if (choice=='1'): # Deauthenticate legitime user
-            pass
-
+            clients = self.wifi_attacker.get_clients_bssid()
+            for cli_bssid in clients:
+                self.wifi_attacker.deauth_client(
+                    self.targeted_drone.get_bssid()
+                    , cli_bssid
+                    , self.targeted_drone.get_channel()
+                    , self.targeted_drone.get_ssid())
+            
 
         elif (choice == '3'): # Crack wifi key
             pass

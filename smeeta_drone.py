@@ -17,8 +17,9 @@
 
 import signal
 import sys
-import src.wifi.wifi_availables_nw as nw
-import src.views.home_view as h
+from src.wifi.wifi_nw_tools import *
+
+from src.views import home_view as h
 
 """ has to be the last import because of a bug in 'click' external lib """
 from src.views.views_common_lib import *

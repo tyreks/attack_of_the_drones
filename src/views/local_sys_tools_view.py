@@ -17,7 +17,7 @@ import time
 
 from pwn import *
 
-from . import wifi_view as wv
+from . import wifi_targets_view as wv
 from . import home_view as hv
 from . import views_common_lib as vcl
 from .. wifi import wifi_attacker as wa
@@ -80,7 +80,7 @@ class LocalSysToolsView:
             self.set_managed_mode_choice()
 
         elif (choice=='9'): # Previous screen (wifi view)
-            view = wv.WifiView()
+            view = wv.WifiTargetsView()
             view.display()
             return # to avoid recursive call from other view
 

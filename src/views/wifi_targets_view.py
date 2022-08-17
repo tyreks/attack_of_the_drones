@@ -21,7 +21,7 @@ from . import wifi_attacks_view as wav
 from ..wifi.wifi_attacker import WifiAttacker
 from ..drone import drone as d
 
-class WifiView:
+class WifiTargetsView:
 
     menus : list
     wifi_attacker : WifiAttacker
@@ -52,7 +52,7 @@ class WifiView:
         if nb_targets == 0:
             print("No target detected")
         else:
-            print("Select a target to attack: \n")
+            print("\nSelect a target to attack: \n")
             for t in targets:
                 if t[1] != '':
                     self.menus.insert(0, 
@@ -64,7 +64,7 @@ class WifiView:
         choice = vt.choose_menu(self.menus)
 
         # for each detected drone, make a specific call for attack
-        if int(choice) < nb_targets:
+        if int(choice) <= nb_targets:
             targeted_drone = d.Drone(brand=t[0], ssid=t[1], bssid=t[2], channel=t[3])
             view = wav.WifiAttacksView(targeted_drone)
             view.display()
@@ -85,7 +85,7 @@ class WifiView:
             sys.exit(0)
     
 def main():
-    view = WifiView()
+    view = WifiTargetsView()
     view.display()
 
 

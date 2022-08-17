@@ -48,7 +48,7 @@ CSV_CLI_DUMP = CLI_DUMP_DIR+CLI_DUMP_FILE_PREFIX+'-01.csv'
 CAP_CLI_DUMP = CLI_DUMP_DIR+CLI_DUMP_FILE_PREFIX+'-01.cap'
 
 # aerodump networks dump duration in seconds
-NW_DUMP_DURATION=5
+NW_DUMP_DURATION=10
 
 # aerodump networks clients dump duration in seconds
 CLI_DUMP_DURATION=40

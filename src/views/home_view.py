@@ -2,10 +2,10 @@ import sys
 import time
 
 from . import views_common_lib as vt
-from . import detect as tgt
+#from . import detect as tgt
 from . import jam_view as jam
 from . import spoof_gps_view as gps
-from . import wifi_view as wifi
+from . import wifi_targets_view as wifi
 
 #from .. wifi import  wifi_availables_nw as nw
 
@@ -39,7 +39,7 @@ class HomeView:
         """     
 
         if (choice == '1'): # Wifi attacks
-            view = wifi.WifiView()
+            view = wifi.WifiTargetsView()
             view.display()
 
         elif (choice == '2'): # GPS Spoofing
