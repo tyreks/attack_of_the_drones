@@ -18,6 +18,10 @@ APP_TITLE='Smeeta - Drone'
 # application base directory
 BASE_DIR=os.getcwd()+'/'
 
+# Dictionnarie for wifi key cracking
+DICT_DIR="/usr/share/wordlists/"
+DEFAULT_DICT=DICT_DIR+"rockyou.txt"
+
 # managed interface to use
 MNG_INTERF='wlp2s0'#'wlan0'
 #wlx00c0caaf2751

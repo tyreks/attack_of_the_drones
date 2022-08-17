@@ -95,7 +95,7 @@ class WifiAttacksView:
     def crack_wifi_choice(self):
         """
         """
-        self.wifi_attacker.crack_wifi()
+        self.wifi_attacker.crack_wifi(self.targeted_drone)
 
 
 def main():

@@ -31,7 +31,7 @@ VENDOR_MAC_OUI["GOPRO"]     = {"24:74:F7", "D8:96:85", "04:41:69"}
 #VENDOR_MAC_OUI["XIAOMI"]    = {"48:87:59", "AC:1E:9E", "64:DD:E9"}
 
 # my phone's hotspotstart
-VENDOR_MAC_OUI["FAKE_DRONE_XIAOMI"] = {"4A:15:A4"}
+VENDOR_MAC_OUI["FAKE_DRONE_XIAOMI"] = {"82:22:D1"}
 
 
 def get_vendor(mac_oui:str) -> str:

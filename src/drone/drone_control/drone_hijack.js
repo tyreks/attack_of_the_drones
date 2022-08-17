@@ -28,6 +28,7 @@ var server = http.createServer(function(req, res) {
 
 server.listen(8080, function() {
   console.log('Serving latest png on port 8080 ...');
+  /*
   client.takeoff();
 
   client
@@ -71,5 +72,5 @@ server.listen(8080, function() {
       this.stop();
       this.land();
     });
-
+    */
 });

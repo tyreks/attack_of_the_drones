@@ -190,10 +190,10 @@ def crack(bssid, essid):
     """
     Try to crack a pre-shared key (PSK) of a target wifi network
     """
-    progress = log.progress("Cracking the '"
+    progress = log.progress("Attempting to crack the '"
         +essid+"' wifi network...")
     
-    cmd = ['sudo', 'aircrack-ng', '-w', './res/dict/rockyou.txt'
+    cmd = ['sudo', 'aircrack-ng', '-w', DEFAULT_DICT
     , '-b', bssid, CAP_CLI_DUMP]
     if DEBUG: print_cmd(cmd)
 
