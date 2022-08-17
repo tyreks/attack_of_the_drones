@@ -1,4 +1,4 @@
-# [Smeeta] [Drone] (https://smeeta.org)
+# [Smeeta Drone] (https://smeeta.org)
 
 Smeeta Drone is a drone attacks demonstrator, designed to highlight the flaws present on this type of intelligent (or even autonomous) vehicles in order to better understand how to protect oneself against them.
 
