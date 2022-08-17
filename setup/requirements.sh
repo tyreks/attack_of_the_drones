@@ -1,10 +1,12 @@
+#!/bin/bash 
+
 # Dependancies
 
 # pip (required for further pip modules installations)
 sudo apt install pip
 
 # pandas : *.csv file handling
-pip install pandas || echo “er
+pip install pandas
 
 # pwntools : progress bar formatting
 pip install pwntools
