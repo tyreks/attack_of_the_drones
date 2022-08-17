@@ -41,9 +41,8 @@ class LocalSysToolsView:
             , "Restore wireless interface to initial state" # 6
             , "Start wireless interface in monitoring mode" # 7
             , "Set back wireless interface to managed mode" # 8
-            , "Previous screen" # 9
-            , "Return to home screen" # 10
-            , "Quit"] # 11
+            , "Return to home screen" # 9
+            , "Quit"] # 10
         
 
     def display(self):
@@ -79,17 +78,12 @@ class LocalSysToolsView:
         elif (choice=='8'): # Set back wireless interface to managed mode
             self.set_managed_mode_choice()
 
-        elif (choice=='9'): # Previous screen (wifi view)
-            view = wv.WifiTargetsView()
-            view.display()
-            return # to avoid recursive call from other view
-
-        elif (choice=='10'): # Return to home screen
+        elif (choice=='9'): # Return to home screen
             view = hv.HomeView()
             view.display()
             return # to avoid recursive call from other view
 
-        elif (choice == '11'): # Exit program
+        elif (choice == '10'): # Exit program
             sys.exit(0)
 
         # sleep 3 seconds then display the view again

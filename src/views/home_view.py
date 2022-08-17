@@ -6,6 +6,8 @@ from . import views_common_lib as vt
 from . import jam_view as jam
 from . import spoof_gps_view as gps
 from . import wifi_targets_view as wifi
+from . import local_sys_tools_view as lstv
+
 
 #from .. wifi import  wifi_availables_nw as nw
 
@@ -20,6 +22,7 @@ class HomeView:
             "Wifi attacks"
             , "GPS spoofing"
             , "Radio jamming"
+            , "Wireless interface system tools"
             , "Quit"]
 
     def display(self):
@@ -54,8 +57,13 @@ class HomeView:
                 print("\n\t>> Error : no HackRF detected."\
                     "please connect it and retry. <<\n")
                 time.sleep(2)
-            
-        elif (choice == '4'): # Exit
+        
+        elif (choice == '4'): # Local wireless interface system tools
+            view = lstv.LocalSysToolsView()
+            view.display()
+
+
+        elif (choice == '5'): # Exit
             sys.exit(0)
 
         # in the end, back to home screen3

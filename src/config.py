@@ -20,9 +20,12 @@ BASE_DIR=os.getcwd()+'/'
 
 # managed interface to use
 MNG_INTERF='wlp2s0'#'wlan0'
+#wlx00c0caaf2751
 
 # monitoring interface name, based on the managed one
 MON_INTERF=MNG_INTERF+'mon'
+#wlx00c0caaf2751
+
 
 # directory where are generated dump files
 DUMP_DIR=BASE_DIR+'res/dump/'
@@ -59,7 +62,7 @@ MAIL = "smeeta@live.fr"
 GPS_RES_DIR = BASE_DIR+"/res/gps_res/"
 
 #[GENERATOR]
-GPS_SDR_SIM = os.path.expanduser('~')+"/gps-sdr-sim/gps-sdr-sim"
+GPS_SDR_SIM = "/opt/gps-sdr-sim/gps-sdr-sim"
 COORDS_DIR = BASE_DIR+"/res/gps_res/coords/"
 INPUT_EPHEM_FILE = BASE_DIR+"/res/gps_res/gps_data.n"
 OUTPUT = BASE_DIR+"/res/gps_res/gpssim.bin"

@@ -63,7 +63,7 @@ class Jammer(gr.top_block):
 
         def sig_handler(sig=None, frame=None):
             self.stop()
-            #self.wait()
+            self.wait()
             sys.exit(0)
 
         signal.signal(signal.SIGINT, sig_handler)
@@ -72,7 +72,7 @@ class Jammer(gr.top_block):
         self.start()
 
         try:
-            input('Press Enter or Ctrl+C to quit: ')
+            input('\n\t >> Press [Enter] to stop jamming... << \n')
         except EOFError:
             pass
         self.stop()

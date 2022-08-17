@@ -68,8 +68,8 @@ class JamView:
             self.jammer.start_jamming()
 
         elif (choice=='6'): # Enter the frequency manually
-            freq = int(input("\nEnter the frequency to jam in MHz: "))
-            self.jammer.set_center_freq(freq)
+            freq = int(input("\nEnter the frequency to jam in MHz (1 - 6000) "))
+            self.jammer.set_center_freq(freq * 10e6)
             self.jammer.start_jamming()
 
         elif (choice == '7'): # GO to home screen
