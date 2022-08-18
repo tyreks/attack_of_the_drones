@@ -23,12 +23,12 @@ DICT_DIR="/usr/share/wordlists/"
 DEFAULT_DICT=DICT_DIR+"rockyou.txt"
 
 # managed interface to use
-MNG_INTERF='wlp2s0'#'wlan0'
-#wlx00c0caaf2751
+#MNG_INTERF='wlp2s0'
+MNG_INTERF='wlx00c0caaf2751'
 
 # monitoring interface name, based on the managed one
-MON_INTERF=MNG_INTERF+'mon'
-#wlx00c0caaf2751
+#MON_INTERF=MNG_INTERF+'mon'
+MON_INTERF='wlx00c0caaf2751'
 
 
 # directory where are generated dump files

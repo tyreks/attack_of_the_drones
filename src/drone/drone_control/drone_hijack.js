@@ -28,13 +28,14 @@ var server = http.createServer(function(req, res) {
 
 server.listen(8080, function() {
   console.log('Serving latest png on port 8080 ...');
-  /*
+  
   client.takeoff();
 
   client
-    .after(5000, function() {
+    .after(3000, function() {
       this.clockwise(0.5);
     })
+    /*
     .after(5000, function() {
       this.stop();
     })
@@ -68,9 +69,10 @@ server.listen(8080, function() {
     .after(5000, function() {
       this.stop();
     })
+    */
     .after(1000, function() {
       this.stop();
       this.land();
     });
-    */
+    
 });

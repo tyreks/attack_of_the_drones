@@ -81,12 +81,20 @@ class WifiTargetsView:
             print("\nNo target detected\n")
         else:
             print("\nSelect a target to attack: \n")
+            tmp_menus = []
             for t in targets:
                 if t[1] != '': # if ssid not empty
                     # insert the menu choice corresponding to this target
+                    """
                     self.menus.insert(0, 
                         "'"+t[0]+"' providing '"+t[1]+"' network (channel "
                         +t[3]+", BSSID: "+t[2]+")")
+                    """
+                    tmp_menus.append("'"+t[0]+"' providing '"+t[1]+"' network (channel "
+                        +t[3]+", BSSID: "+t[2]+")")
+            
+            # modify the initial choices menu
+            self.menus = tmp_menus + self.menus
 
 
 def main():

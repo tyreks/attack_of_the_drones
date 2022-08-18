@@ -13,6 +13,7 @@
 
 
 import sys
+import time
 from . import views_common_lib as vt
 from . import home_view as hv
 
@@ -88,8 +89,14 @@ class WifiAttacksView:
     def hijack_drone_choice(self):
         """
         """
-        self.wifi_attacker.hijack_drone(self.targeted_drone)
-        pass
+        try:
+            print("\n\nDeauthentating legitime clients...\n")
+            self.deauth_clients_choice()
+            time.sleep(5)
+            print("\n\Attempting to hijack the drone...\n")
+            self.wifi_attacker.hijack_drone(self.targeted_drone)
+        except Exception as e:
+            print("\nError while trying to hijack the drone: ", format(e))
 
 
     def crack_wifi_choice(self):

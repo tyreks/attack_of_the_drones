@@ -1,7 +1,7 @@
 
 BSSID, First time seen, Last time seen, channel, Speed, Privacy, Cipher, Authentication, Power, # beacons, # IV, LAN IP, ID-length, ESSID, Key
-82:22:D1:39:72:14, 2022-08-17 23:22:44, 2022-08-17 23:23:23, 100, 180, WPA2, CCMP, PSK, -41,      383,      544,   0.  0.  0.  0,   9, fakedrone, 
+90:03:B7:C8:40:2F, 2022-08-18 13:49:00, 2022-08-18 13:49:40,  6,  65, OPN, ,   , -40,      313,      168, 192.168.  1.  1,  10, StarDrone2, 
 
 Station MAC, First time seen, Last time seen, Power, # packets, BSSID, Probed ESSIDs
-30:07:4D:7F:D9:3F, 2022-08-17 23:22:44, 2022-08-17 23:23:18, -40,     2487, 82:22:D1:39:72:14,
+64:DD:E9:5F:46:61, 2022-08-18 13:49:00, 2022-08-18 13:49:10, -50,     2398, 90:03:B7:C8:40:2F,
 

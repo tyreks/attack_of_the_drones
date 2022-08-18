@@ -58,5 +58,3 @@ def validate_choice(value, menus):
         print_header()
         click.echo('/!\ Incorrect menu number. Please try again. /!\ \n')
         return choose_menu(menus)
-
-
