@@ -22,7 +22,7 @@ from . import home_view as hv
 from . import views_common_lib as vcl
 from .. wifi import wifi_attacker as wa
 from .. wifi import wifi_nw_tools as wnt
-from .. import config as c
+from ..config.config import *
 
 
 class LocalSysToolsView:
@@ -127,9 +127,10 @@ class LocalSysToolsView:
         """
         progress = log.progress("Enabling interface...")
         try:
-            wnt.enable_interf(interface=c.MNG_INTERF, hide_output=False)
+            wnt.enable_interf(interface=MNG_INTERF, hide_output=False)
         except Exception as e:
             progress.failure(format(e))
+            #raise(e)
         progress.success()
 
 
@@ -138,7 +139,7 @@ class LocalSysToolsView:
         """
         progress = log.progress("Disabling interface...")
         try:
-            wnt.disable_interf(interface=c.MNG_INTERF, hide_output=False)
+            wnt.disable_interf(interface=MNG_INTERF, hide_output=False)
         except Exception as e:
             progress.failure(format(e))
         progress.success()
@@ -149,7 +150,7 @@ class LocalSysToolsView:
         """
         progress = log.progress("Restoring interface to initial state...")
         try:
-            wnt.restore_interf(interf=c.MNG_INTERF, hide_output=False)
+            wnt.restore_interf(interf=MNG_INTERF, hide_output=False)
         except Exception as e:
             progress.failure(format(e))
         progress.success()        
@@ -160,7 +161,7 @@ class LocalSysToolsView:
         """
         progress = log.progress("Starting interface in monitoring mode...")
         try:        
-            wnt.start_mon(channel='', interface=c.MNG_INTERF, hide_output=False)
+            wnt.start_mon(channel='', interface=MNG_INTERF, hide_output=False)
         except Exception as e:
             progress.failure(format(e))
         progress.success()   
@@ -171,7 +172,7 @@ class LocalSysToolsView:
         """
         progress = log.progress("Starting interface in monitoring mode...")
         try:      
-            wnt.stop_mon(interface=c.MON_INTERF, hide_output=False)
+            wnt.stop_mon(interface=MON_INTERF, hide_output=False)
         except Exception as e:
             progress.failure(format(e))
         progress.success()  

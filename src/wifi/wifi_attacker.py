@@ -17,7 +17,7 @@ from pydoc import cli
 import pandas
 
 from . wifi_nw_tools import *
-from ..config import *
+from ..config.config import *
 from .wifi_vendors import *
 from ..drone import drone as d
 
@@ -31,30 +31,36 @@ class WifiAttacker():
 
     def list_wifi_nw(self, capture_output=False) -> None:
 
-        # prepare the network interface
-        restore_interf()
+        try:
+            # prepare the network interface
+            restore_interf()
 
-        # start monitoring networks
-        start_mon()
+            # start monitoring networks
+            start_mon()
 
-        # dump wifi networks
-        dump_all_nw(hide_output = capture_output)
+            # dump wifi networks
+            dump_all_nw(hide_output = capture_output)
 
-        # restore the interface
-        restore_interf()
-
+            # restore the interface
+            restore_interf()
+        except Exception as e:
+            raise(Exception(f"{e}"))
 
 
     def detect_drones(self):
 
-        # result targets list
-        targets = []
+        try:
+            # result targets list
+            targets = []
 
-        # dump all networks without output
-        self.list_wifi_nw(capture_output=True)
+            # dump all networks without output
+            self.list_wifi_nw(capture_output=True)
 
-        # get access points corresponding to drones
-        targets = self.get_target_networks()
+            # get access points corresponding to drones
+            targets = self.get_target_networks()
+        
+        except Exception as e:
+            raise(Exception(f"{e}"))
 
         return targets
 
@@ -68,20 +74,25 @@ class WifiAttacker():
         Each target of this list is a list like this :
         ['vendor', 'essid', 'bssid', 'chan']
         """
-        # import and sort the CSV dumping input file
-        df = pandas.read_csv(CSV_NW_DUMP, usecols=[' Power', ' ESSID', 'BSSID', ' channel'])
-        df.sort_values([" Power"], axis=0, ascending=[False], inplace=True)
+        
+        try:
+            # import and sort the CSV dumping input file
+            df = pandas.read_csv(CSV_NW_DUMP, usecols=[' Power', ' ESSID', 'BSSID', ' channel'])
+            df.sort_values([" Power"], axis=0, ascending=[False], inplace=True)
 
-        targets = []
-        for idx, row in df.iterrows():
-            chan    = str(row[' channel']).strip()
-            bssid   = row['BSSID']
-            essid   = str(row[' ESSID']).strip()
-            oui     = bssid[0:8]
-            vendor = get_vendor(oui)
+            targets = []
+            for idx, row in df.iterrows():
+                chan    = str(row[' channel']).strip()
+                bssid   = row['BSSID']
+                essid   = str(row[' ESSID']).strip()
+                oui     = bssid[0:8]
+                vendor = get_vendor(oui)
 
-            if (vendor != "" and essid != "") :
-                targets.append([vendor, essid, bssid, chan])
+                if (vendor != "" and essid != "") :
+                    targets.append([vendor, essid, bssid, chan])
+        
+        except Exception as e:
+            raise(Exception(f"{e}"))
 
         return targets
 
@@ -90,10 +101,14 @@ class WifiAttacker():
 
     def dump_target_network(self, chan, bssid, interface=MNG_INTERF, duration=CLI_DUMP_DURATION):
         """ perform a dump of a specific network """
-        restore_interf(interface)
-        start_mon(chan, interface)
-        dump_specific_nw(bssid, chan, MON_INTERF, duration)
-        restore_interf(interface)
+        try:
+            restore_interf(interface)
+            start_mon(chan, interface)
+            dump_specific_nw(bssid, chan, 1, duration)
+            restore_interf(interface)
+
+        except Exception as e:
+            raise(Exception(f"{e}"))
 
 
     def deauth_client(self, ap_bssid, cli_bssid, chan, essid

@@ -17,6 +17,7 @@
 
 import signal
 import sys
+
 from src.wifi.wifi_nw_tools import *
 
 from src.views import home_view as h
@@ -37,8 +38,12 @@ signal.signal(signal.SIGTERM, sig_handler)
 
 def main():
 
-    view = h.HomeView()
-    view.display()
+    try:
+        view = h.HomeView()
+        view.display()
+    
+    except Exception as e:
+        print(f"Error : {e}")   
 
 
 if __name__ == "__main__":

@@ -15,63 +15,92 @@ import subprocess
 import glob
 
 from pwn import *
-from ..config import *
+from ..config.config import *
+
 
 def check_kill(hide_output=True):
     """
     perform a preventive kill of processes that could cause troubles
     during the monitoring
     """
+    # the system command to execute
     cmd = ['sudo', 'airmon-ng', 'check', 'kill']
-    if DEBUG: print_cmd(cmd)
-    subprocess.run(cmd, capture_output=hide_output)
 
+    # print the command if debug mode set in the config file
+    if DEBUG: print_cmd(cmd)
+
+    # execute the command and manage the errors
+    p = subprocess.run(cmd, capture_output=hide_output)
+    if (p.returncode != 0):
+        raise(Exception(f"""Couldn't check and kill processes"""
+            """ that could troubles."""))
 
 
 def restart_nw(hide_output=True):
     """
     restart the network manager
     """
-    #progress = log.progress("Restarting network...")
+    # the system command to execute
     cmd = ['sudo', 'systemctl', 'restart', 'NetworkManager']
+    
+    # print the command if debug mode set in the config file
     if DEBUG: print_cmd(cmd)
-    subprocess.run(cmd, capture_output=hide_output)
-    #progress .success()
+
+    # execute the command and manage the errors
+    p = subprocess.run(cmd, capture_output=hide_output)
+    if (p.returncode != 0):
+        raise(Exception(f"Couldn't restart the networking service."))
 
 
 def enable_interf(interface=MNG_INTERF, hide_output=True):
     """
     start interface
     """
-    #progress = log.progress("Enabling interface '" + str(interface) + "'...")
+    # the system command to execute
     cmd = ['sudo', 'ip', 'link', 'set', interface, 'up']
+
+    # print the command if debug mode set in the config file
     if DEBUG: print_cmd(cmd)
-    subprocess.run(cmd, capture_output=hide_output)
-    #progress .success()
+
+    # execute the command and manage the errors
+    p = subprocess.run(cmd, capture_output=hide_output)
+    if (p.returncode != 0):
+        raise(Exception(f"""Couldn't find the '{interface}' interface."""
+            """ Please check the 'MNG_INTERF' and 'MON_INTERF' values"""
+            """ set in the config file."""))
 
 
 def disable_interf(interface=MNG_INTERF, hide_output=True):
     """
     stop interface
     """
-    #progress = log.progress("Disabling interface '" + str(interface) + "'...")
+    # the system command to execute
     cmd = ['sudo', 'ip', 'link', 'set', interface, 'down']
+
+    # print the command if debug mode set in the config file
     if DEBUG: print_cmd(cmd)
-    subprocess.run(cmd, capture_output=hide_output)
-    #progress .success()
+
+    # execute the command and manage the errors
+    p = subprocess.run(cmd, capture_output=hide_output)
+    if (p.returncode != 0):
+        raise(Exception(f"""Couldn't find the '{interface}' interface."""
+            """ Please check the 'MNG_INTERF' and 'MON_INTERF' values"""
+            """ set in the config file."""))
 
 
 def restore_interf(interf=MNG_INTERF, hide_output=True):
     """
     restore interf initial state (set it back to managed mode)
     """
+    try:
 
-    #progress = log.progress("Restoring '"+interf+"' initial state...")
-    stop_mon(MON_INTERF)
-    disable_interf(MNG_INTERF)
-    restart_nw()
-    enable_interf(interf)
-    #progress .success()
+        stop_mon(MON_INTERF)
+        disable_interf(MNG_INTERF)
+        restart_nw()
+        enable_interf(interf)
+
+    except Exception as e:
+        raise(Exception(f"{e}"))
 
 
 
@@ -79,20 +108,18 @@ def start_mon(channel='', interface=MNG_INTERF, hide_output=True):
     """
     enable monitor mode on <interface> and <channel>
     """
-    log_str = "Enabling monitor mode on '"+interface+"' interface"
+    log_str = f"Enabling monitor mode on '{interface}' interface"
     if (channel != ''):
         log_str += " and on channel "+channel
     try:
-        #progress = log.progress(log_str)
         check_kill()
         cmd = ['sudo', 'airmon-ng', 'start', interface, channel]
         if DEBUG: print_cmd(cmd)
         subprocess.run(cmd, capture_output=hide_output)
 
     except Exception as e:
-        #progress .failure("Error while switching to monitoring mode: ", format(e))
-        raise(e)
-    #progress .success()
+        raise(Exception(f"{e}"))
+
 
 
 def stop_mon(interface=MON_INTERF, hide_output=True):
@@ -100,14 +127,11 @@ def stop_mon(interface=MON_INTERF, hide_output=True):
     disable monitor mode on <interface> and <channel>
     """
     try:
-        #progress = log.progress("Disabling monitor mode on '"+interface+"' interface")
         cmd = ['sudo', 'airmon-ng', 'stop', interface]
         if DEBUG: print_cmd(cmd)
         subprocess.run(cmd, capture_output=hide_output)
     except Exception as e:
-        #progress .failure("Error while disabling ", interface, " interface: ", format(e))
         raise(e)
-    #progress .success()
 
 
 

@@ -9,7 +9,7 @@ import shutil
 from ftplib import FTP_TLS
 import sys
 
-from ..config import *
+from ..config.config import *
 
 
 class GnssDataRetriever(object) :

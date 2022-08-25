@@ -7,7 +7,7 @@ import re
 import subprocess
 import sys
 
-from ..config import *
+from ..config.config import *
 
 class GpsDataGenerator(object):
 

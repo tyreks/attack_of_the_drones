@@ -4,7 +4,7 @@
 import argparse
 import subprocess
 
-from ..config import *
+from ..config.config import *
 
 class SpoofedSignalTransmitter(object):
     """

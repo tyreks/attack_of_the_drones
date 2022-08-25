@@ -1,4 +1,3 @@
-
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
@@ -15,7 +14,7 @@
 import re
 import pyfiglet
 
-from src.config import *
+from ..config.config import *
 import click # this external lib has to be the last import
 
 def clear_scr():
