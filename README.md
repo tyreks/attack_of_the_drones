@@ -76,10 +76,7 @@ npm install ar-drone
 sudo apt install ffmpeg -y
 
 ### gps-sdr-sim : required for gps spoofing
-cd /opt
-git clone https://github.com/osqzss/gps-sdr-sim.git
-cd ./gps-sdr-sim
-gcc gpssim.c -lm -O3 -o gps-sdr-sim
+cd /opt && git clone https://github.com/osqzss/gps-sdr-sim.git && cd ./gps-sdr-sim && gcc gpssim.c -lm -O3 -o gps-sdr-sim
 
 
 ## Remarks and questions
