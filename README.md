@@ -43,7 +43,7 @@ All dependancies are preinstalled in Smeeta OS (https://smeeta.org). Here is the
 sudo apt install pip
 
 ### pandas : *.csv file handling
-pip install pandas || echo “er
+pip install pandas
 
 ### pwntools : progress bar formatting
 pip install pwntools
