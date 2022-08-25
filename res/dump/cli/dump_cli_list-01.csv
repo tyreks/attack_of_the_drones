@@ -1,7 +1,7 @@
 
 BSSID, First time seen, Last time seen, channel, Speed, Privacy, Cipher, Authentication, Power, # beacons, # IV, LAN IP, ID-length, ESSID, Key
-82:22:D1:39:72:14, 2022-08-25 14:34:37, 2022-08-25 14:35:16,  1, 180, WPA2, CCMP, PSK, -42,      302,     2463,   0.  0.  0.  0,   9, fakedrone, 
+82:22:D1:39:72:14, 2022-08-25 16:47:48, 2022-08-25 16:48:28,  1, 180, WPA2, CCMP, PSK, -35,      310,     1462,   0.  0.  0.  0,   9, fakedrone, 
 
 Station MAC, First time seen, Last time seen, Power, # packets, BSSID, Probed ESSIDs
-D4:54:8B:B7:AD:F4, 2022-08-25 14:34:38, 2022-08-25 14:35:16, -25,     4716, 82:22:D1:39:72:14,
+D4:54:8B:B7:AD:F4, 2022-08-25 16:47:48, 2022-08-25 16:48:27, -32,     3570, 82:22:D1:39:72:14,
 

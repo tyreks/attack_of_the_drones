@@ -141,6 +141,7 @@ class WifiAttacker():
 
         if len(cli_bssid) == 0:
             print("No clients detected on targeted wifi. Can't crack the key.\n")
+            input(">>> Press 'Enter' to continue... <<< ")
         else :
 
             # dumping thread
@@ -153,17 +154,17 @@ class WifiAttacker():
                 , args=(ap_bssid, cli_bssid[0], ssid, mon_interf)
             )
             
-            print("Démarrage thread 1 (dump)")
+            print("Starting thread 1 : network dumping")
             t1.start()
 
-            print("Démarrage thread 2 (deauth)")
+            print("Starting thread 2 : deauthenticating legitimate clients")
             t2.start()
 
             t2.join()
-            print("Thread 2 (deauth) terminé")
+            print("Thread 2 (deauthenticating) finished")
 
             t1.join()
-            print("Thread 1 (dump) terminé")
+            print("Thread 1 (network dumping) finished")
             
             # device state restoring
             restore_interf(mng_interf)
