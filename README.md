@@ -84,9 +84,6 @@ gcc gpssim.c -lm -O3 -o gps-sdr-sim
 
 ## Remarks and questions
 
-Do not hesitate to send your remarks and questions to the following addresses, we will be happy to answer them:
+Do not hesitate to send your remarks and questions to the following addresses, we will be happy to answer them: 
 
-helmi.rais@expleogroup.com
-yasmeen.trifiss@expleogroup.com
-hichem.aggoun@expleogroup.com
-tyreksforever@gmail.com
+contact@smeeta.org
