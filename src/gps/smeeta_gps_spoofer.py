@@ -43,7 +43,7 @@ class SmeetaGpsSpoofer(object):
                 transmitter = sst.SpoofedSignalTransmitter()
                 transmitter.transmit()
 
-            # else a "--" special operation has been choosed, perform it
+            # else a "--" special operation has been choosed, so perform it
             else :
                 # retrieving operation
                 if self.retrieve:
@@ -64,9 +64,12 @@ class SmeetaGpsSpoofer(object):
                     transmitter.transmit()
                     
         except Exception as exc:
+            print("\nCouldn't download the GNSS file from NASA site. Check your connection (could be blocked by your VPN).\n")
+            raise(exc)
+            """
             print (format(exc))
             sys.exit(1)
-
+            """
     # getter
     def get_location(self):
         return self.location

@@ -23,12 +23,12 @@ DICT_DIR="/usr/share/wordlists/"
 DEFAULT_DICT=DICT_DIR+"rockyou.txt"
 
 # managed interface to use
-#MNG_INTERF='wlp2s0'
-MNG_INTERF='wlx00c0caaf2751'
+MNG_INTERF='wlp2s0'
+#MNG_INTERF='wlx00c0caaf2751'
 
 # monitoring interface name, based on the managed one
-#MON_INTERF=MNG_INTERF+'mon'
-MON_INTERF='wlx00c0caaf2751'
+MON_INTERF=MNG_INTERF+'mon'
+#MON_INTERF='wlx00c0caaf2751'
 
 
 # directory where are generated dump files
@@ -58,7 +58,10 @@ CAP_CLI_DUMP = CLI_DUMP_DIR+CLI_DUMP_FILE_PREFIX+'-01.cap'
 NW_DUMP_DURATION=10
 
 # aerodump networks clients dump duration in seconds
-CLI_DUMP_DURATION=40
+CLI_DUMP_DURATION=20
+
+# wifi deauthentication duration
+DEAUTH_DURATION=20
 
 #[RETRIEVER]
 HOST = "gdc.cddis.eosdis.nasa.gov"

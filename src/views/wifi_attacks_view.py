@@ -77,15 +77,9 @@ class WifiAttacksView:
     def deauth_clients_choice(self):
         """
         """
-        clients = self.wifi_attacker.get_clients_bssid()
-        for cli_bssid in clients:
-            self.wifi_attacker.deauth_client(
-                self.targeted_drone.get_bssid()
-                , cli_bssid
-                , self.targeted_drone.get_channel()
-                , self.targeted_drone.get_ssid())
-            
-    
+        self.wifi_attacker.deauth_all_clients(self.targeted_drone)
+        
+
     def hijack_drone_choice(self):
         """
         """

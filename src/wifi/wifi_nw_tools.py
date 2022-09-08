@@ -187,7 +187,7 @@ def dump_specific_nw(bssid, channel, interface=MON_INTERF, duration=CLI_DUMP_DUR
     progress .success()
 
 
-def deauth(target_nw_bssid, target_cli_bssid, target_essid
+def deauth_client(target_nw_bssid, target_cli_bssid, target_essid
     , mon_interf=MON_INTERF):
     """
     Deauthenticate a legitime user frome a wifi network
@@ -200,7 +200,7 @@ def deauth(target_nw_bssid, target_cli_bssid, target_essid
         , mon_interf]
     if DEBUG: print_cmd(cmd)
     try:
-        subprocess.run(cmd, capture_output=True, timeout=10)
+        subprocess.run(cmd, capture_output=True, timeout=DEAUTH_DURATION)
     except subprocess.TimeoutExpired:
         pass
     except Exception as e:
