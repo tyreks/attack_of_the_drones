@@ -12,8 +12,6 @@
 ##############################################################################
 
 
-from ctypes.wintypes import MSG
-from pydoc import cli
 import pandas
 
 from . wifi_nw_tools import *
